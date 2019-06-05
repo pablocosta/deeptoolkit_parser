@@ -19,9 +19,9 @@ def main(args):
 		dp_dev   = DataPreprocessor()
 		dp_test  = DataPreprocessor()
 
-		train_dataset, vocabs_train = dp_train.load_data(train_file)
-		dev_dataset, vocabs_dev     = dp_dev.load_data(dev_file)
-		test_dataset, vocabs_test   = dp_test.load_data(test_file)
+		train_dataset, vocabs_train, vocab_pos = dp_train.load_data(train_file, None, None)
+		dev_dataset, _, _     = dp_dev.load_data(dev_file, vocabs_train, vocab_pos)
+		test_dataset, _, _   = dp_test.load_data(test_file, vocabs_train, vocab_pos)
 
 	else:
 		print ("Preprocessing data..")
@@ -29,9 +29,9 @@ def main(args):
 		dp_dev   = DataPreprocessor()
 		dp_test  = DataPreprocessor()
 
-		train_dataset, vocabs_train = dp_train.preprocess(os.path.join(args.dataset_path, args.train_files), train_file, args.max_len)
-		dev_dataset, vocabs_dev     = dp_dev.preprocess(os.path.join(args.dataset_path, args.dev_files), dev_file, args.max_len)
-		test_dataset, vocabs_test   = dp_test.preprocess(os.path.join(args.dataset_path, args.test_files), test_file, args.max_len)
+		train_dataset, vocabs_train, vocab_pos = dp_train.preprocess(os.path.join(args.dataset_path, args.train_files), train_file, args.max_len, None, None)
+		dev_dataset, _, _    = dp_dev.preprocess(os.path.join(args.dataset_path, args.dev_files), dev_file, args.max_len, vocabs_train, vocab_pos)
+		test_dataset, _, _   = dp_test.preprocess(os.path.join(args.dataset_path, args.test_files), test_file, args.max_len, vocabs_train, vocab_pos)
 
 	print ("Elapsed Time: %1.3f \n" % (time.time() - start_time))
 
@@ -52,11 +52,12 @@ def main(args):
 	test_loader = data.BucketIterator(dataset=test_dataset, batch_size=args.batch_size,
 									 repeat=False, shuffle=True, sort_within_batch=True,
 									 sort_key=lambda x: len(x.src))
-	"""
-		trainer = Trainer(train_loader, val_loader, vocabs, args)
-		trainer.train_iters()
 
-	"""
+	vocabs = {"vocab_word": vocabs_train,"vocab_pos": vocab_pos}
+
+	trainer = Trainer(train_loader, val_loader, test_loader, vocabs, args)
+	trainer.train_iters()
+
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()

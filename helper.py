@@ -5,6 +5,17 @@ EOS_token = 1
 PAD_token = 2
 use_cuda = torch.cuda.is_available()
 
+def binaryMatrix(l, value):
+    m = []
+    for i, seq in enumerate(l):
+        m.append([])
+        for token in seq:
+            if token == value:
+                m[i].append(0)
+            else:
+                m[i].append(1)
+    return m
+
 
 
 

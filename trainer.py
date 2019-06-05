@@ -4,9 +4,10 @@ import torch.nn as nn
 import torch.optim as optim
 import pandas as pd
 import random
+import os
 
 class Trainer(object):
-    def __init__(self, train_loader, val_loader, vocabs, args):
+    def __init__(self, train_loader, val_loader, test_loader, vocabs, args):
 
         self.use_cuda = True
         self.max_length = args.max_len
@@ -14,6 +15,8 @@ class Trainer(object):
         # Data Loader
         self.train_loader = train_loader
         self.val_loader   = val_loader
+        self.test_loader  = test_loader
+
         # Hyper-parameters
         self.lr             = args.lr
         self.grad_clip      = args.grad_clip
@@ -35,10 +38,15 @@ class Trainer(object):
         USE_CUDA = torch.cuda.is_available()
         self.device = torch.device("cuda" if USE_CUDA else "cpu")
 
+
+        ARRUMAR BUILD
         self.build_model(vocabs)
         self.log_path = os.path.join('./logs/' + args.log)
 
     def build_model(self, vocabs):
+
+
+
         self.src_vocab = vocabs['src_vocab']
         self.trg_vocab = vocabs['trg_vocab']
         self.per_vocab = vocabs['per_vocab']

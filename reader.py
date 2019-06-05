@@ -40,25 +40,28 @@ class DataPreprocessor(object):
     def __init__(self):
         self.generate_fields()
 
-    def preprocess(self, data_path, file_name, max_len=None):
+    def preprocess(self, data_path, file_name, max_len=None, vocab=None, vocab_pos=None):
         self.max_len = max_len
         data         = reader(data_path)
         # Generating torchtext dataset class
-        print ("Preprocessing train dataset...")
         dataset = self.generate_data(data)
 
         # Building field vocabulary
-        self.words_field.build_vocab(data['sentence'], max_size=30000)
-        self.pos_field.build_vocab(data['pos'], min_freq=0)
+        if vocab is None:
+            self.words_field.build_vocab(data['sentence'], max_size=30000)
+        else:
+            self.words_field.vocab = vocab
 
-        wrd_vocab, pos_vocab, wrd_inv_vocab, pos_inv_vocab = self.generate_vocabs()
+        if vocab_pos is None:
+            self.pos_field.build_vocab(data['pos'], min_freq=0)
+        else:
+            self.pos_field.vocab = vocab_pos
 
-        vocabs = {'wrd_vocab': wrd_vocab, 'pos_vocab': pos_vocab,
-                  'wrd_inv_vocab': wrd_inv_vocab, 'pos_inv_vocab': pos_inv_vocab}
+        wrd_vocab, pos_vocab = self.generate_vocabs()
 
         self.save_data(file_name, dataset)
 
-        return dataset, vocabs
+        return dataset, wrd_vocab, pos_vocab
 
     def save_data(self, data_file, dataset):
         example_pos  = vars(dataset)["examples"]
@@ -85,7 +88,7 @@ class DataPreprocessor(object):
                    ('sentence_id', self.sentence_id_field)]
 
 
-    def load_data(self, data_file):
+    def load_data(self, data_file, vocab_word, vocab_pos):
         # Loading saved data
         dataset = torch.load(data_file)
 
@@ -95,15 +98,25 @@ class DataPreprocessor(object):
         # Generating torchtext dataset class
         dataset = data.Dataset(fields=self.fields, examples=examples)
 
+
         # Building field vocabulary
-        self.words_field.build_vocab(dataset, max_size=30000)
-        self.pos_field.build_vocab(dataset, max_size=30000)
+        if vocab_word is None:
+            self.words_field.build_vocab(dataset, max_size=30000)
 
-        wrd_vocab, pos_vocab, wrd_inv_vocab, pos_inv_vocab = self.generate_vocabs()
+        else:
+            self.words_field.vocab = vocab_word
 
-        vocabs = {'wrd_vocab': wrd_vocab, 'pos_vocab': pos_vocab,
-                  'wrd_inv_vocab': wrd_inv_vocab, 'pos_inv_vocab': pos_inv_vocab}
-        return dataset, vocabs
+        if vocab_pos is None:
+            self.pos_field.build_vocab(dataset, max_size=30000)
+            wrd_vocab, pos_vocab = self.generate_vocabs()
+        else:
+            self.pos_field.vocab = vocab_pos
+
+
+
+
+
+        return dataset, wrd_vocab, pos_vocab
 
 
     def generate_data(self, senteces):
@@ -122,12 +135,8 @@ class DataPreprocessor(object):
 
     def generate_vocabs(self):
         # Define string to index vocabs
-        wrd_vocab = self.words_field.vocab.stoi
-        pos_vocab = self.pos_field.vocab.stoi
+        wrd_vocab = self.words_field.vocab
+        pos_vocab = self.pos_field.vocab
 
 
-        # Define index to string vocabs
-        wrd_inv_vocab = self.words_field.vocab.itos
-        pos_inv_vocab = self.pos_field.vocab.itos
-
-        return wrd_vocab, pos_vocab, wrd_inv_vocab, pos_inv_vocab
+        return wrd_vocab, pos_vocab

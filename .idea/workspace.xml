@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a940cf73-a6f9-49a5-b23e-87469042892e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/deepdep/DeNSe/core/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/deepdep/DeNSe/core/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deepdep/DeNSe/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/deepdep/DeNSe/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deepdep/DeNSe/util/conllx.py" beforeDir="false" afterPath="$PROJECT_DIR$/deepdep/DeNSe/util/conllx.py" afterDir="false" />
-    </list>
+    <list default="true" id="a940cf73-a6f9-49a5-b23e-87469042892e" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +13,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
+            <state relative-caret-position="480">
               <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
@@ -59,7 +55,7 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/deepdep" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -103,6 +99,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../ia_usp/trabalho_1" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
@@ -270,7 +267,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
+        <state relative-caret-position="480">
           <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
